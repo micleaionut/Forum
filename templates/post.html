@@ -1,0 +1,21 @@
+<div class="post">
+  <div class="post-heading">
+    <div class="post-title">
+	 <a href="/blog/{{p.key().id()}}">{{p.subject}}</a>    
+    </div>
+
+    <div class="post-date">
+      {{p.created.strftime("%b %d, %Y")}}
+    </div>
+  </div>
+
+  <div class="post-content">
+    {{p._render_text | safe}}
+  </div>
+  <div class="post__like">
+        <a href="/blog/{{p.key().id()}}/like">
+            Like
+        </a>
+        <span class="like__count">{{p.likes}}</span>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {{post.render(user.key().id()) | safe}}
+  {% if user and user.key().id() == post.user_id %}
+		<a href="/blog/{{post.key().id()}}/edit">
+					Edit
+		</a>
+		<a href="/blog/{{post.key().id()}}/delete/{{post.user_id}}">
+			Delete
+		</a>
+		<br>
+	{% elif user %}
+
+		<a href="/blog/{{post.key().id()}}/unlike">
+			Unlike
+		</a>
+		<br>
+	{% endif %}
+	{% if user %}
+		<a href="/blog/{{post.key().id()}}/addcomment/{{user.key().id()}}">
+			
+				Add comments
+		</a>
+	{% endif %}
+
+	<div class="comments">
+		{% for c in comments %}
+			<div class="comment">
+			    <div class="comment__meta">
+			        <div class="meta__comment">
+			            <div class="meta__comment__author">{{c.user_name}}</div>
+			            <div class="meta__comment__date">{{c.created.strftime("%b %d, %Y")}}</div>
+			        </div>
+			    </div>
+			    <p class="comment__content">
+			        {{ c.content }}
+			    </p>
+			    <div class="clearfix">
+				    {% if user and user.key().id() == c.user_id %}
+				    	<a href="/blog/{{post.key().id()}}/{{c.user_id}}/deletecomment/{{ c.key().id() }}">
+				    		<div class="comment__delete">
+				    			Delete
+				    		</div>
+				    	</a>
+				    	<a href="/blog/{{post.key().id()}}/{{c.user_id}}/editcomment/{{ c.key().id() }}">
+				    		<div class="comment__edit">
+				    			Edit
+				    		</div>
+				    	</a>
+				    {% endif %}
+			    </div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<i>{{error}}</i>
+{% endblock %}
